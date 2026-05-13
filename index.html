@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvictusMedLine | Головний Хаб</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg-main: #F8F5FC; 
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --accent-color: #B8E0D2; /* Mint */
+            --accent-color-hover: #98D0BC;
+            --text-main: #2D3748; 
+            --text-dim: #718096;
+            --border-color: #E2E8F0;
+            
+            /* Logo */
+            --logo-fill: #1A202C;
+            --logo-stroke: #1A202C;
+            --logo-glow: rgba(184, 224, 210, 0.8);
+            --logo-header-inner: #F8F5FC;
+            --logo-center-inner: #FFFFFF;
+            
+            /* Ambient Glows */
+            --btn-glow: rgba(184, 224, 210, 0.8);
+            --glow-1: rgba(184, 224, 210, 0.7); /* Mint */
+            --glow-2: rgba(152, 208, 188, 0.5); /* Deep Mint */
+            --glow-3: rgba(200, 240, 220, 0.6); /* Soft Mint */
+            
+            /* Header */
+            --header-bg: rgba(248, 245, 252, 0.85);
+            --dropdown-bg: #FFFFFF;
+            
+            --disclaimer-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-main: #1A1820; 
+            --card-bg: rgba(30, 28, 36, 0.7);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --accent-color: #8C7B9B; /* Pale Violet */
+            --accent-color-hover: #A393B3;
+            --text-main: #E2E8F0;
+            --text-dim: #A0AEC0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            
+            /* Logo */
+            --logo-fill: #E2E8F0;
+            --logo-stroke: #E2E8F0;
+            --logo-glow: rgba(140, 123, 155, 0.8);
+            --logo-header-inner: #1A1820;
+            --logo-center-inner: #1D1B23;
+
+            /* Ambient Glows */
+            --btn-glow: rgba(140, 123, 155, 0.8);
+            --glow-1: rgba(100, 80, 160, 0.6); /* Purple */
+            --glow-2: rgba(80, 40, 120, 0.5);  /* Deep Purple */
+            --glow-3: rgba(120, 90, 180, 0.4); /* Neon Violet */
+            
+            /* Header */
+            --header-bg: rgba(26, 24, 32, 0.85);
+            --dropdown-bg: #221F2A;
+            
+            --disclaimer-bg: #221F2A;
+        }
+
+        html { overflow-x: hidden; max-width: 100vw; }
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-main);
+            overflow-x: hidden;
+            max-width: 100vw;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        .font-fredoka { font-family: 'Fredoka', sans-serif; }
+
+        /* КІНЕМАТОГРАФІЧНА ВІНЬЄТКА */
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
+        }
+        [data-theme="dark"] body::before {
+            background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 0.85) 100%);
+        }
+
+        /* ЖИВИЙ АМБІЄНТ */
+        .ambient-glow {
+            position: fixed; 
+            filter: blur(120px); 
+            mix-blend-mode: normal; 
+            z-index: 0; pointer-events: none;
+            transition: background-color 0.8s ease;
+        }
+        [data-theme="dark"] .ambient-glow {
+            mix-blend-mode: screen;
+        }
+        
+        @keyframes blob-1 {
+            0%, 100% { transform: translate(-50%, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; opacity: 0.5; }
+            50% { transform: translate(-40%, 10%) scale(1.4) rotate(20deg); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; opacity: 0.8; }
+        }
+        @keyframes blob-2 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 50%; opacity: 0.4; }
+            50% { transform: translate(-15%, -15%) scale(1.3) rotate(-25deg); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; opacity: 0.7; }
+        }
+        @keyframes blob-3 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 60% 40% 50% 50% / 50% 50% 50% 50%; opacity: 0.4; }
+            50% { transform: translate(15%, -10%) scale(1.35) rotate(30deg); border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%; opacity: 0.75; }
+        }
+        
+        .glow-1 { background: var(--glow-1); animation: blob-1 18s ease-in-out infinite; } 
+        .glow-2 { background: var(--glow-2); animation: blob-2 22s ease-in-out infinite; } 
+        .glow-3 { background: var(--glow-3); animation: blob-3 16s ease-in-out infinite; } 
+
+        /* ДИЗАЙН КАРТОК */
+        .glass-card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 2rem;
+            position: relative; z-index: 10;
+            box-shadow: 
+                0 10px 30px -10px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] .glass-card {
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-accent { 
+            background-color: var(--accent-color); color: var(--text-main); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .btn-accent:hover { 
+            background-color: var(--accent-color-hover); 
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px -5px var(--btn-glow);
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 1.25rem;
+        }
+        .module-card:hover {
+            border-color: var(--accent-color);
+            background: var(--bg-main);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        /* СТРІЧКА В РОЗРОБЦІ */
+        .ribbon-wrapper {
+            position: absolute; top: -1px; right: -1px;
+            width: 85px; height: 85px; overflow: hidden;
+            border-radius: 0 1.5rem 0 0;
+        }
+        .ribbon {
+            position: absolute; top: 15px; right: -25px;
+            background: var(--accent-color); color: var(--text-main);
+            text-align: center; font-size: 7px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            padding: 5px 0; width: 120px; transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ВІДПОВІДАЛЬНИЙ ЗА ПРОЕКТ ТА DROPDOWN */
+        .author-dropdown-up {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; transform: translateY(10px) translateX(-50%) scale(0.95);
+            pointer-events: none;
+            background: var(--dropdown-bg);
+            border-color: var(--border-color);
+        }
+        .author-dropdown-up::after { content: ""; position: absolute; bottom: -20px; left: 0; width: 100%; height: 25px; background: transparent; }
+        .group:hover .author-dropdown-up, .author-dropdown-up.active {
+            opacity: 1; transform: translateY(0) translateX(-50%) scale(1); pointer-events: auto;
+        }
+        .social-btn {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.6rem 1rem; border-radius: 0.75rem; font-size: 10px; font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease; position: relative; z-index: 60;
+        }
+        .social-btn.insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; }
+        .social-btn.tg { background: #0088cc; color: white; }
+        .social-btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+
+        /* ЛОГОТИП ТА ЕФЕКТИ */
+        .logo-container { 
+            cursor: pointer; display: flex; align-items: center; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; padding-bottom: 4px;
+        }
+        
+        /* Неонова лінія під текстом */
+        .logo-container::after {
+            content: ""; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent-color-hover);
+            box-shadow: 0 0 10px var(--accent-color-hover), 0 0 20px var(--accent-color-hover);
+            transition: none;
+            border-radius: 2px;
+        }
+
+        .logo-container:hover::after {
+            animation: logo-line-run 0.6s ease-out forwards;
+        }
+
+        .logo-container:hover .logo-invictus, 
+        .logo-container:hover .logo-medline-header, 
+        .logo-container:hover .logo-medline-center {
+            animation: logo-heartbeat-flash 0.8s 0.5s ease-in-out forwards;
+        }
+
+        @keyframes logo-line-run {
+            0% { width: 0; left: 0; opacity: 1; }
+            90% { width: 100%; left: 0; opacity: 1; }
+            100% { width: 100%; left: 0; opacity: 0; }
+        }
+
+        @keyframes logo-heartbeat-flash {
+            0% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+            /* Перший удар (S1) */
+            15% { text-shadow: 0 0 20px var(--logo-glow), 0 0 35px var(--logo-glow); transform: scale(1.03); }
+            30% { text-shadow: 0 0 5px var(--logo-glow); transform: scale(1); }
+            /* Другий удар (S2) */
+            45% { text-shadow: 0 0 15px var(--logo-glow), 0 0 25px var(--logo-glow); transform: scale(1.015); }
+            70% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+            100% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+        }
+        
+        .logo-invictus { color: var(--logo-fill); transition: all 0.5s ease; }
+        
+        .logo-medline-header, .logo-medline-center { 
+            transition: all 0.5s ease; 
+            paint-order: stroke fill;
+            -webkit-text-stroke: 1.5px var(--logo-stroke);
+            font-weight: 800;
+        }
+        .logo-medline-header { color: var(--logo-header-inner); }
+        .logo-medline-center { color: var(--logo-center-inner); }
+
+        /* Випадаюче меню: додано hover ефект */
+        .dropdown-btn { transition: background-color 0.2s ease; }
+        .dropdown-btn:hover { background-color: var(--card-border); }
+
+        @media (max-width: 640px) {
+            .brand-subtitle { letter-spacing: 0.2em !important; font-size: 9px !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative overflow-x-hidden pt-16">
+
+    <!-- НАВІГАЦІЙНА ШАПКА -->
+    <header class="fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b transition-colors duration-500" style="background-color: var(--header-bg); border-color: var(--border-color);">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+            <div class="logo-container font-fredoka text-2xl md:text-3xl tracking-wide" onclick="switchView('view-krok')">
+                <span class="logo-invictus">Invictus</span><span class="logo-medline-header">MedLine</span>
+            </div>
+
+            <!-- ЕЛЕМЕНТИ УПРАВЛІННЯ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ -->
+            <div class="flex items-center space-x-2 md:hidden">
+                <button onclick="toggleTheme()" class="text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors p-2 rounded-full hover:bg-[var(--card-border)]">
+                    <svg id="theme-icon-light-mobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-dark-mobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <button onclick="toggleMobileMenu()" class="text-[var(--text-main)] p-2 focus:outline-none rounded-full hover:bg-[var(--card-border)] transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+
+            <!-- ДЕСКТОПНЕ МЕНЮ -->
+            <nav class="hidden md:flex space-x-8 h-full items-center">
+                <button onclick="toggleTheme()" class="text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors p-2 rounded-full hover:bg-[var(--card-border)]">
+                    <svg id="theme-icon-light" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-icon-dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <a href="https://t.me/vovachik1997" target="_blank" class="flex items-center text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors">Допомога</a>
+                <a href="https://www.testcentr.org.ua/uk/zakhody" target="_blank" class="flex items-center text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors">БПР</a>
+                <a href="https://moz.gov.ua/uploads/ckeditor/%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B8/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%202020/01%2C09%2C2021/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%9D%D0%9A%20025.pdf" target="_blank" class="flex items-center text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors">МКХ-10</a>
+                <a href="https://t.me/alwswnhlMK2" target="_blank" class="flex items-center text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors">Співпраця</a>
+                <div class="relative group h-full flex items-center">
+                    <button class="text-sm font-bold text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors flex items-center h-full">
+                        Крок
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Випадаюче меню КРОК -->
+                    <div class="absolute top-16 right-0 w-48 border rounded-b-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden" style="background-color: var(--dropdown-bg); border-color: var(--border-color);">
+                        <button onclick="handleKrokClick(1)" class="dropdown-btn px-4 py-3 text-left text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] border-b" style="border-color: var(--border-color);">Крок 1</button>
+                        <button onclick="handleKrokClick(2)" class="dropdown-btn px-4 py-3 text-left text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)] border-b" style="border-color: var(--border-color);">Крок 2</button>
+                        <button onclick="handleKrokClick(3)" class="dropdown-btn px-4 py-3 text-left text-sm font-bold text-[var(--text-dim)] hover:text-[var(--text-main)]">Крок 3</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- МЕНЮ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ (DRAWER) -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 z-[90] hidden bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[320px] z-[100] hidden flex-col pt-24 px-8 pb-6 transform transition-transform duration-500 translate-x-full border-l rounded-l-3xl shadow-2xl" style="background-color: var(--header-bg); border-color: var(--border-color); backdrop-filter: blur(24px);">
+        <nav class="flex flex-col space-y-6 mt-4 text-left text-xl font-black">
+            <a href="https://t.me/vovachik1997" target="_blank" onclick="toggleMobileMenu()" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors flex items-center justify-between">Допомога <span class="text-xs">➜</span></a>
+            <a href="https://www.testcentr.org.ua/uk/zakhody" target="_blank" onclick="toggleMobileMenu()" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors flex items-center justify-between">БПР <span class="text-xs">➜</span></a>
+            <a href="https://moz.gov.ua/uploads/ckeditor/%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B8/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%202020/01%2C09%2C2021/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%9D%D0%9A%20025.pdf" target="_blank" onclick="toggleMobileMenu()" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors flex items-center justify-between">МКХ-10 <span class="text-xs">➜</span></a>
+            <a href="https://t.me/alwswnhlMK2" target="_blank" onclick="toggleMobileMenu()" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors flex items-center justify-between">Співпраця <span class="text-xs">➜</span></a>
+            <div class="h-px w-full" style="background-color: var(--border-color);"></div>
+            <button onclick="handleKrokClick(1); toggleMobileMenu();" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors text-left flex items-center justify-between">Крок 1 <span class="text-xs">➜</span></button>
+            <button onclick="handleKrokClick(2); toggleMobileMenu();" class="text-[var(--text-dim)] hover:text-[var(--text-main)] transition-colors text-left flex items-center justify-between">Крок 2 <span class="text-xs">➜</span></button>
+            <button onclick="handleKrokClick(3); toggleMobileMenu();" class="text-[var(--accent-color-hover)] transition-colors text-left flex items-center justify-between drop-shadow-md">Крок 3 <span class="text-xs">➜</span></button>
+        </nav>
+    </div>
+
+    <!-- АМБІЄНТ ДЛЯ ГОЛОВНОЇ СТОРІНКИ -->
+    <div class="ambient-glow glow-1 w-full max-w-4xl h-96 top-0 left-1/2 -translate-x-1/2"></div>
+    <div class="ambient-glow glow-2 w-96 h-96 top-40 right-10"></div>
+    <div class="ambient-glow glow-3 w-96 h-96 bottom-10 left-10"></div>
+
+    <main class="flex-1 flex items-center justify-center p-4 md:p-6 relative z-10">
+        <div class="max-w-6xl w-full glass-card p-6 md:p-12 text-center space-y-10 my-8">
+            
+            <!-- ШАПКА ХАБУ -->
+            <div class="space-y-3">
+                <div class="w-full overflow-hidden flex justify-center pb-2">
+                    <h1 class="font-fredoka tracking-wide logo-container text-4xl md:text-6xl">
+                        <span class="logo-invictus">Invictus</span><span class="logo-medline-center">MedLine</span>
+                    </h1>
+                </div>
+                <p class="font-black uppercase tracking-[0.5em] text-xs md:text-sm brand-subtitle" style="color: var(--text-dim);">Invictus in omni consilio</p>
+            </div>
+
+            <!-- БЛОК "УЛЮБЛЕНЕ" -->
+            <div id="favorites-section" class="hidden space-y-4 animate-in fade-in duration-500 max-w-4xl mx-auto mt-4">
+                <div class="text-left space-y-1 w-full flex items-center justify-between pl-2">
+                    <h2 class="text-sm md:text-base font-black uppercase tracking-widest flex items-center gap-2" style="color: var(--text-main);">
+                        <span class="text-xl animate-pulse" style="color: var(--accent-color-hover);">★</span> Швидкий доступ
+                    </h2>
+                </div>
+                <div id="favorites-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-left">
+                    <!-- Віджети ін'єктуються сюди -->
+                </div>
+            </div>
+
+            <!-- VIEW 1: ВИБІР КРОКУ -->
+            <div id="view-krok" class="space-y-10 animate-in fade-in duration-500">
+                
+                <!-- КОМПАКТНИЙ БЛОК ВИБОРУ КРОКУ -->
+                <div class="glass-card p-6 md:p-8 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border rounded-[2rem] text-center md:text-left">
+                    <div class="space-y-1 w-full md:w-auto">
+                        <h2 class="text-lg md:text-xl font-black uppercase italic tracking-tight" style="color: var(--text-main);">Етап підготовки</h2>
+                        <p class="text-[10px] font-bold uppercase tracking-widest" style="color: var(--text-dim);">Оберіть потрібний іспит</p>
+                    </div>
+                    
+                    <div class="flex flex-row gap-2 md:gap-3 w-full md:w-auto justify-between md:justify-end">
+                        <!-- КРОК 1 -->
+                        <button onclick="handleKrokClick(1)" class="flex-1 md:flex-none whitespace-nowrap relative overflow-hidden border rounded-xl py-3 px-2 md:px-8 font-black italic text-sm md:text-base opacity-70 hover:opacity-100 transition-all hover:bg-[var(--card-border)]" title="В розробці" style="border-color: var(--border-color); color: var(--text-dim);">
+                            КРОК 1
+                        </button>
+                        
+                        <!-- КРОК 2 -->
+                        <button onclick="handleKrokClick(2)" class="flex-1 md:flex-none whitespace-nowrap relative overflow-hidden border rounded-xl py-3 px-2 md:px-8 font-black italic text-sm md:text-base opacity-70 hover:opacity-100 transition-all hover:bg-[var(--card-border)]" title="В розробці" style="border-color: var(--border-color); color: var(--text-dim);">
+                            КРОК 2
+                        </button>
+
+                        <!-- КРОК 3 (Активний) -->
+                        <button onclick="handleKrokClick(3)" class="flex-1 md:flex-none whitespace-nowrap btn-accent relative overflow-hidden border rounded-xl py-3 px-2 md:px-8 font-black italic text-sm md:text-base transition-all shadow-md" style="border-color: var(--border-color);">
+                            КРОК 3
+                        </button>
+                    </div>
+                </div>
+
+                <!-- РОЗДІЛ "КОРИСНА ІНФОРМАЦІЯ" (BENTO GRID) -->
+                <div class="space-y-6 w-full max-w-5xl mx-auto pt-8">
+                    <div class="text-left pl-2">
+                        <h2 class="text-sm md:text-base font-black uppercase tracking-widest flex items-center gap-2" style="color: var(--text-main);">
+                            <span class="text-xl" style="color: var(--accent-color-hover);">✦</span> Корисна інформація
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:auto-rows-[160px]">
+                        
+                        <!-- 1. НОВИНИ САЙТУ (Wide) -->
+                        <a href="news.html" class="md:col-span-2 glass-card bento-tile p-6 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center text-xl">📢</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-lg font-black transition-transform group-hover:-translate-y-1" style="color: var(--text-main);">Новини платформи</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-2 uppercase tracking-widest" style="color: var(--text-dim);">Останні зміни у роботі сайту</p>
+                            </div>
+                        </a>
+
+                        <!-- 2. КАЛЕНДАР ЩЕПЛЕНЬ (Tall) -->
+                        <a href="https://moz.gov.ua/uk/kalendar-profilaktichnih-scheplen" target="_blank" class="md:row-span-2 glass-card bento-tile p-6 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-xl">💉</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-lg font-black leading-tight group-hover:-translate-y-1 transition-transform" style="color: var(--text-main);">Календар щеплень 2026</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-2 uppercase tracking-widest mb-4" style="color: var(--text-dim);">Офіційні рекомендації МОЗ</p>
+                                <div class="flex items-center text-[8px] font-black uppercase tracking-widest text-[var(--accent-color-hover)] bg-[var(--accent-color)]/10 px-3 py-1.5 rounded-full">
+                                    moz.gov.ua <span class="ml-2">➜</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- 3. КЛАСИФІКАТОР ХВОРОБ (Wide) -->
+                        <a href="https://moz.gov.ua/uploads/ckeditor/%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B8/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%202020/01%2C09%2C2021/%D0%9D%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%BA%D0%BB%D0%B0%D1%81%D0%B8%D1%84%D1%96%D0%BA%D0%B0%D1%82%D0%BE%D1%80%20%D0%9D%D0%9A%20025.pdf" target="_blank" class="md:col-span-2 glass-card bento-tile p-6 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-slate-500/10 flex items-center justify-center text-xl">📁</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-base md:text-lg font-black transition-transform group-hover:-translate-y-1 leading-tight" style="color: var(--text-main);">Класифікатор хвороб та споріднених проблем охорони здоров'я</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-2 uppercase tracking-widest" style="color: var(--text-dim);">Національний класифікатор України</p>
+                            </div>
+                        </a>
+
+                        <!-- 4. ЗАХОДИ БПР (Wide) -->
+                        <a href="https://www.testcentr.org.ua/uk/zakhody" target="_blank" class="md:col-span-2 glass-card bento-tile p-6 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-xl">🎓</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-lg font-black transition-transform group-hover:-translate-y-1" style="color: var(--text-main);">Заходи БПР</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-2 uppercase tracking-widest" style="color: var(--text-dim);">Реєстр заходів для лікарів</p>
+                            </div>
+                        </a>
+
+                        <!-- 5. SUPPORT (Small) -->
+                        <a href="https://t.me/vovachik1997" target="_blank" class="glass-card bento-tile p-4 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-xl">💬</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-lg font-black uppercase tracking-tighter" style="color: var(--text-main);">Support</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-widest" style="color: var(--text-dim);">Допомога</p>
+                            </div>
+                        </a>
+
+                        <!-- 6. СПІВПРАЦЯ (Small) -->
+                        <a href="https://t.me/alwswnhlMK2" target="_blank" class="glass-card bento-tile p-4 pt-14 flex flex-col items-center justify-center text-center group cursor-pointer hover:scale-[1.01] transition-all relative overflow-hidden">
+                            <div class="absolute top-4 left-4 w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-xl">🤝</div>
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-lg font-black transition-transform group-hover:-translate-y-1" style="color: var(--text-main);">Співпраця</h3>
+                                <p class="text-[10px] font-bold opacity-60 mt-1 uppercase tracking-widest" style="color: var(--text-dim);">Ініціативи</p>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <style>
+                    .bento-tile {
+                        border: 1px solid var(--border-color);
+                        background: var(--card-bg);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+
+                    .bento-tile:hover {
+                        border-color: var(--accent-color-hover);
+                        box-shadow: 0 0 20px var(--btn-glow);
+                        z-index: 2;
+                    }
+
+                    @media (max-width: 768px) {
+                        .bento-tile {
+                            min-height: 100px;
+                        }
+                    }
+                </style>
+
+            </div>
+
+            <!-- VIEW 2: ВИБІР СПЕЦІАЛЬНОСТІ -->
+            <div id="view-specialty" class="hidden space-y-6 animate-in fade-in duration-500">
+                <div class="flex items-center justify-between border-b pb-4 mb-6 sticky top-0 bg-transparent backdrop-blur-xl z-20 rounded-t-2xl px-2" style="border-color: var(--border-color);">
+                    <button onclick="switchView('view-krok')" class="w-10 h-10 rounded-full border flex items-center justify-center transition-all text-sm font-bold shadow-inner flex-shrink-0" style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-main);">
+                        &larr;
+                    </button>
+                    <div class="flex-1 text-center px-4">
+                        <h2 class="text-xl md:text-2xl font-black uppercase italic tracking-tight drop-shadow-md" style="color: var(--text-main);">КРОК 3</h2>
+                        <p class="text-[9px] font-black uppercase tracking-widest mt-1" style="color: var(--text-dim);">Виберіть модуль бази</p>
+                    </div>
+                    <div class="w-10 flex-shrink-0"></div> <!-- Розпірка -->
+                </div>
+                
+                <!-- ДОДАНО p-4 щоб тіні і бордери карток не обрізались контейнером з overflow -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left max-h-[60vh] overflow-y-auto p-4 no-scrollbar relative z-10">
+                    
+                    <!-- 1. ПЕДІАТРІЯ (АКТИВНА) -->
+                    <a href="krok3-pediatrics.html" class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <p class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно</p>
+                            <h3 class="text-base font-black leading-tight transition-colors" style="color: var(--text-main);">Педіатрія</h3>
+                        </div>
+                        <div class="text-right relative z-10 mt-2">
+                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner" style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">ЦТ 2026</span>
+                        </div>
+                    </a>
+
+                    <!-- 2. СІМЕЙНА МЕДИЦИНА (АКТИВНА) -->
+                    <a href="krok3-family-med.html" class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <p class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно</p>
+                            <h3 class="text-base font-black leading-tight transition-colors" style="color: var(--text-main);">Загальна практика - сімейна медицина</h3>
+                        </div>
+                        <div class="text-right relative z-10 mt-2">
+                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner" style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">ЦТ 2026</span>
+                        </div>
+                    </a>
+
+                    <!-- 3. ОФТАЛЬМОЛОГІЯ (АКТИВНА) -->
+                    <a href="krok3-ophthalmology.html" class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <p class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно</p>
+                            <h3 class="text-base font-black leading-tight transition-colors" style="color: var(--text-main);">Офтальмологія</h3>
+                        </div>
+                        <div class="text-right relative z-10 mt-2">
+                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner" style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">ЦТ 2026</span>
+                        </div>
+                    </a>
+                    
+                    <!-- ФУНКЦІЯ ГЕНЕРАЦІЇ КАРТОК "В РОЗРОБЦІ" -->
+                    <script>
+                        const specialties = [
+                            "Внутрішні хвороби", "Акушерство та гінекологія", "Хірургія",
+                            "Анестезіологія та інтенсивна терапія", "Медицина невідкладних станів",
+                            "Психіатрія", "Неврологія", "Інфекційні хвороби", "Ортопедія і травматологія",
+                            "Отоларингологія", "Дерматовенерологія", "Радіологія",
+                            "Дитяча хірургія", "Епідеміологія", "Медична психологія", "Патологічна анатомія",
+                            "Фізична та реабілітаційна медицина", "Стоматологія", 
+                            "Лабораторна діагностика, вірусологія, мікробіологія"
+                        ];
+                        
+                        specialties.forEach(spec => {
+                            document.write(`
+                                <div class="module-card p-5 rounded-2xl opacity-60 flex flex-col justify-between h-[120px] relative overflow-hidden">
+                                    <div class="relative z-10 pr-6">
+                                        <p class="text-[8px] font-black uppercase tracking-widest mb-1" style="color: var(--text-dim);">Очікується</p>
+                                        <h3 class="text-sm font-bold leading-tight" style="color: var(--text-dim);">${spec}</h3>
+                                    </div>
+                                    <div class="ribbon-wrapper opacity-50 filter grayscale"><div class="ribbon">В розробці</div></div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                    
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-8 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6 mt-auto relative z-50 border-t backdrop-blur-md transition-colors duration-500" style="background: var(--header-bg); border-color: var(--border-color);">
+        <div class="text-center md:text-left space-y-2 md:w-1/3">
+            <div class="text-[10px] font-black uppercase tracking-[0.2em]" style="color: var(--text-dim);">© 2026 InvictusMedLine. Made with ❤️ in Ukraine.</div>
+            <div class="text-[9px] font-bold italic tracking-wider" style="color: var(--text-dim);">Special thanks to Google for providing the essential tools and the possibility to create this platform.</div>
+        </div>
+        
+        <div class="group relative inline-block text-center md:w-1/3 author-container">
+            <p class="text-[10px] font-bold uppercase tracking-widest cursor-default" style="color: var(--text-dim);">
+                Відповідальний за проект: 
+                <span onclick="toggleAuthor(event)" class="transition-colors duration-300 border-b border-dotted cursor-pointer font-black" style="color: var(--text-main); border-color: var(--text-dim);">Руденко Ігор Ігорович</span>
+            </p>
+            <div id="author-dropdown" class="author-dropdown-up absolute bottom-full left-1/2 mb-4 w-48 border p-4 rounded-2xl shadow-2xl z-50 flex flex-col space-y-2" style="background-color: var(--dropdown-bg); border-color: var(--border-color);">
+                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 transform rotate-45 border-b border-r" style="background-color: var(--dropdown-bg); border-color: var(--border-color);"></div>
+                <p class="text-[8px] font-black uppercase tracking-widest mb-1 text-center font-bold relative z-10" style="color: var(--text-main);">Зв'язок з автором:</p>
+                <a href="https://www.instagram.com/alwswnhl/" target="_blank" class="social-btn insta font-black relative z-10">Instagram</a>
+                <a href="https://t.me/alwswnhlMK2" target="_blank" class="social-btn tg font-black relative z-10">Telegram</a>
+            </div>
+        </div>
+
+        <div class="flex justify-center md:justify-end md:w-1/3">
+            <a href="https://t.me/InvictusMedLine" target="_blank" class="flex items-center space-x-4 transition-all group">
+                <span class="text-[11px] font-black uppercase tracking-[0.2em]" style="color: var(--text-main);">Спільнота в Telegram</span>
+                <div class="w-10 h-10 rounded-full border flex items-center justify-center transition-all group-hover:scale-110" style="background: var(--card-bg); border-color: var(--border-color);">
+                    <span class="text-sm font-bold" style="color: var(--text-main);">➜</span>
+                </div>
+            </a>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНЕ ВІКНО ДИСКЛЕЙМЕРУ -->
+    <div id="disclaimer-modal" class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="max-w-lg w-full p-8 space-y-6 text-center transform transition-all scale-95 opacity-0 border rounded-3xl shadow-2xl" id="disclaimer-content" style="background-color: var(--disclaimer-bg); border-color: var(--border-color);">
+            <h2 class="text-3xl font-black uppercase italic tracking-tight" style="color: var(--accent-color-hover);">Увага!</h2>
+            <div class="text-sm space-y-4 text-left font-medium" style="color: var(--text-dim);">
+                <p>Ця платформа створена виключно з метою ознайомлення та самостійної підготовки до іспитів.</p>
+                <p>Усі тестові матеріали є тренувальними. Використовуючи цей ресурс, ви погоджуєтеся, що результати тестувань на платформі не є офіційною оцінкою ваших знань.</p>
+                <p class="text-center font-bold mt-4 text-base" style="color: var(--text-main);">Бажаємо успіхів у підготовці!</p>
+            </div>
+            <button onclick="acceptDisclaimer()" class="btn-accent w-full py-3.5 rounded-xl font-black uppercase tracking-widest text-sm mt-4 shadow-lg">
+                Я розумію та приймаю
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Ініціалізація теми
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const lightIcon = document.getElementById('theme-icon-light');
+            const darkIcon = document.getElementById('theme-icon-dark');
+            const lightIconMobile = document.getElementById('theme-icon-light-mobile');
+            const darkIconMobile = document.getElementById('theme-icon-dark-mobile');
+            
+            if (lightIcon && darkIcon) {
+                if (theme === 'dark') {
+                    lightIcon.classList.remove('hidden');
+                    darkIcon.classList.add('hidden');
+                    if(lightIconMobile) lightIconMobile.classList.remove('hidden');
+                    if(darkIconMobile) darkIconMobile.classList.add('hidden');
+                } else {
+                    lightIcon.classList.add('hidden');
+                    darkIcon.classList.remove('hidden');
+                    if(lightIconMobile) lightIconMobile.classList.add('hidden');
+                    if(darkIconMobile) darkIconMobile.classList.remove('hidden');
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    menu.classList.remove('translate-x-full');
+                    menu.classList.add('translate-x-0');
+                    overlay.classList.remove('opacity-0');
+                    overlay.classList.add('opacity-100');
+                }, 10);
+            } else {
+                menu.classList.remove('translate-x-0');
+                menu.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                }, 500);
+            }
+        }
+
+        // Запуск при завантаженсті
+        document.addEventListener('DOMContentLoaded', initTheme);
+        // Запускаємо відразу, щоб уникнути блимання
+        initTheme();
+
+        // Функція для мобільного кліку по автору
+        function toggleAuthor(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('author-dropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('author-dropdown');
+            if (dropdown && dropdown.classList.contains('active') && !e.target.closest('.author-container')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // ЛОГІКА УЛЮБЛЕНОГО (ВІДЖЕТИ)
+        function loadFavorites() {
+            const favs = JSON.parse(localStorage.getItem('invictus_favorite_pages') || '[]');
+            const section = document.getElementById('favorites-section');
+            const container = document.getElementById('favorites-container');
+            
+            if (favs.length === 0) {
+                if (section) section.classList.add('hidden');
+                return;
+            }
+            
+            if (section) section.classList.remove('hidden');
+            if (container) {
+                container.innerHTML = '';
+                favs.forEach(fav => {
+                    container.innerHTML += `
+                        <a href="${fav.url}" class="glass-card p-4 rounded-[1.2rem] flex flex-col justify-center items-center group relative overflow-hidden h-[80px] border transition-all hover:-translate-y-1 hover:shadow-xl" style="border-color: var(--border-color);">
+                            <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <h3 class="font-fredoka text-sm text-center relative z-10 transition-colors drop-shadow-sm" style="color: var(--text-main);">${fav.title}</h3>
+                            <button onclick="removeFavorite(event, '${fav.url}')" class="absolute top-2 right-2 text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity z-20" style="color: var(--text-dim);">&times;</button>
+                        </a>
+                    `;
+                });
+            }
+        }
+
+        function removeFavorite(event, url) {
+            event.preventDefault();
+            event.stopPropagation();
+            let favs = JSON.parse(localStorage.getItem('invictus_favorite_pages') || '[]');
+            favs = favs.filter(f => f.url !== url);
+            localStorage.setItem('invictus_favorite_pages', JSON.stringify(favs));
+            loadFavorites();
+        }
+
+        // Запуск при завантаженсті
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadFavorites();
+        });
+
+        function switchView(viewId) {
+            document.getElementById('view-krok').classList.add('hidden');
+            document.getElementById('view-specialty').classList.add('hidden');
+            const target = document.getElementById(viewId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+        }
+
+        let selectedKrokTarget = null;
+
+        function handleKrokClick(krokLevel) {
+            selectedKrokTarget = krokLevel;
+            const hasAccepted = localStorage.getItem('disclaimerAccepted');
+            
+            if (!hasAccepted) {
+                showDisclaimer();
+            } else {
+                proceedToKrok();
+            }
+        }
+
+        function showDisclaimer() {
+            const modal = document.getElementById('disclaimer-modal');
+            const content = document.getElementById('disclaimer-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function acceptDisclaimer() {
+            localStorage.setItem('disclaimerAccepted', 'true');
+            const modal = document.getElementById('disclaimer-modal');
+            const content = document.getElementById('disclaimer-content');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+                proceedToKrok();
+            }, 300);
+        }
+
+        function proceedToKrok() {
+            if (selectedKrokTarget === 3) {
+                switchView('view-specialty');
+            } else {
+                alert(`Вибачте, розділ "Крок ${selectedKrokTarget}" ще знаходиться в розробці!`);
+            }
+        }
+    </script>
+</body>
+</html>
