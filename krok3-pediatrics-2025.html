@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InvictusMedLine | Офтальмологія ЦТ 2026</title>
+    <title>InvictusMedLine | Педіатрія Екзам 2025</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -13,7 +13,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-    <script src="k3oph26.js"></script>
+    <script src="k3p25exam.js"></script>
 
     <style>
         :root {
@@ -596,7 +596,7 @@
             <h2 class="text-2xl font-black uppercase italic tracking-tight" style="color: var(--text-main);">Інформація
                 перед стартом</h2>
             <div class="text-sm space-y-4 text-left font-medium" style="color: var(--text-dim);">
-                <p>Матеріали тестів (ЦТ 2026) належать офіційному <strong>«Центру тестування при МОЗ України»</strong>.
+                <p>Матеріали тестів (Екзаменаційний буклет 2025) є неофіційною збіркою з реального іспиту Крок 3.
                 </p>
                 <p>Даний ресурс є приватною ініціативою для самопідготовки. Результати симуляцій не є офіційною оцінкою.
                 </p>
@@ -676,10 +676,10 @@
                 </div>
                 <span
                     class="text-[8px] font-black uppercase tracking-[0.2em] text-center w-full block mt-0.5 transition-transform group-hover:scale-105"
-                    style="color: var(--text-dim);">Офтальмологія ЦТ 2026</span>
+                    style="color: var(--text-dim);">Педіатрія Екзам 2025</span>
             </a>
             <div class="flex items-center space-x-1">
-                <button onclick="toggleFavoritePage('krok3-ophthalmology', 'Офтальмологія')"
+                <button onclick="toggleFavoritePage('krok3-pediatrics-2025', 'Педіатрія Екзам 2025')"
                     class="text-2xl font-bold p-2 rounded-full hover:scale-110 transition-transform"
                     id="btn-favorite-page" style="color: var(--text-dim);" title="Додати в улюблене">☆</button>
                 <button onclick="toggleTheme()"
@@ -755,10 +755,11 @@
                             Оберіть актуальний буклет</p>
                     </div>
                     <select id="year-select"
+                        onchange="switchDatabase(this.value)"
                         class="w-full md:w-64 bg-transparent border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer transition-all hover:bg-[var(--card-border)]"
                         style="border-color: var(--accent-color); color: var(--text-main);">
-                        <option value="2026">Буклет 2026 року</option>
-                        <option value="future" disabled>Більше баз у розробці...</option>
+                        <option value="2025" selected>📌 Екзаменаційний буклет 2025</option>
+                        <option value="2026">📚 Офіційний буклет ЦТ 2026</option>
                     </select>
                 </div>
 
@@ -970,10 +971,26 @@
 
     <script>
         let state = { mode: 'full', questions: [], answers: {}, score: 0, startTime: null, timerInterval: null };
-        let localMistakes = JSON.parse(localStorage.getItem('invictus_mistakes') || '[]');
-        let localBookmarks = JSON.parse(localStorage.getItem('invictus_bookmarks') || '[]');
-        let localStats = JSON.parse(localStorage.getItem('invictus_stats') || '{"total":0, "correct":0}');
+        let localMistakes = JSON.parse(localStorage.getItem('invictus_mistakes_2025') || '[]');
+        let localBookmarks = JSON.parse(localStorage.getItem('invictus_bookmarks_2025') || '[]');
+        let localStats = JSON.parse(localStorage.getItem('invictus_stats_2025') || '{"total":0, "correct":0}');
         let pendingQuizConfig = null;
+
+        let easterEggClicks = 0;
+        let easterEggTimer = null;
+        let easterEggAudio = null;
+
+        function handleEasterEgg() {
+            if (!easterEggAudio) easterEggAudio = new Audio('6%207.mp3');
+            easterEggClicks++;
+            if (easterEggClicks === 3) {
+                easterEggAudio.currentTime = 0;
+                easterEggAudio.play().catch(e => console.log("Audio play failed:", e));
+                easterEggClicks = 0;
+            }
+            clearTimeout(easterEggTimer);
+            easterEggTimer = setTimeout(() => { easterEggClicks = 0; }, 1000);
+        }
 
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
@@ -1008,13 +1025,13 @@
             const select = document.getElementById('learn-chunk');
             if (!select) return;
 
-            if (typeof TEST_DATA === 'undefined') {
-                select.innerHTML = `<option value="">Помилка: Базу k3oph26.js не знайдено!</option>`;
+            if (typeof TEST_DATA_2025 === 'undefined') {
+                select.innerHTML = `<option value="">Помилка: Базу k3p25exam.js не знайдено!</option>`;
                 select.style.color = "red";
                 return;
             }
 
-            const total = TEST_DATA.questions.length;
+            const total = TEST_DATA_2025.questions.length;
             select.innerHTML = `<option value="0-${total}">Всі ${total} питань (Повний цикл)</option>`;
 
             for (let i = 0; i < total; i += 10) {
@@ -1024,8 +1041,8 @@
             }
 
             const catSelect = document.getElementById('category-select');
-            if (catSelect && TEST_DATA.categories) {
-                Object.entries(TEST_DATA.categories).forEach(([key, val]) => {
+            if (catSelect && TEST_DATA_2025.categories) {
+                Object.entries(TEST_DATA_2025.categories).forEach(([key, val]) => {
                     catSelect.innerHTML += `<option value="${key}">${val}</option>`;
                 });
             }
@@ -1059,15 +1076,15 @@
         function clearStats() {
             if (confirm('Очистити всю статистику, збережені питання та базу помилок? (Дію неможливо скасувати)')) {
                 localMistakes = []; localBookmarks = []; localStats = { total: 0, correct: 0 };
-                localStorage.setItem('invictus_mistakes', JSON.stringify(localMistakes));
-                localStorage.setItem('invictus_bookmarks', JSON.stringify(localBookmarks));
-                localStorage.setItem('invictus_stats', JSON.stringify(localStats));
+                localStorage.setItem('invictus_mistakes_2025', JSON.stringify(localMistakes));
+                localStorage.setItem('invictus_bookmarks_2025', JSON.stringify(localBookmarks));
+                localStorage.setItem('invictus_stats_2025', JSON.stringify(localStats));
                 updateLocalUI(); toggleStatsModal();
             }
         }
 
         function requestQuizStart(mode, count = 150) {
-            if (typeof TEST_DATA === 'undefined') {
+            if (typeof TEST_DATA_2025 === 'undefined') {
                 alert("Критична помилка: Базу даних не підключено!"); return;
             }
             pendingQuizConfig = { mode, count };
@@ -1115,7 +1132,7 @@
             state.mode = mode; state.answers = {}; state.score = 0;
 
             if (mode === 'mistakes') {
-                let pool = TEST_DATA.questions.filter(q => localMistakes.includes(q.text));
+                let pool = TEST_DATA_2025.questions.filter(q => localMistakes.includes(q.text));
                 if (pool.length === 0) { alert("У вас немає невідпрацьованих помилок!"); return; }
                 pool = pool.sort(() => 0.5 - Math.random());
                 state.questions = pool.map((q, idx) => {
@@ -1125,7 +1142,7 @@
                 document.getElementById('mode-label').innerText = `Mistakes Review: ${pool.length} Q`;
             }
             else if (mode === 'bookmarks') {
-                let pool = TEST_DATA.questions.filter(q => localBookmarks.includes(q.text));
+                let pool = TEST_DATA_2025.questions.filter(q => localBookmarks.includes(q.text));
                 if (pool.length === 0) { alert("У вас немає збережених питань!"); return; }
                 pool = pool.sort(() => 0.5 - Math.random());
                 state.questions = pool.map((q, idx) => {
@@ -1135,7 +1152,7 @@
                 document.getElementById('mode-label').innerText = `Bookmarks Review: ${pool.length} Q`;
             }
             else if (mode === 'sim') {
-                state.questions = [...TEST_DATA.questions].sort(() => 0.5 - Math.random()).slice(0, count).map((q, idx) => {
+                state.questions = [...TEST_DATA_2025.questions].sort(() => 0.5 - Math.random()).slice(0, count).map((q, idx) => {
                     let opts = q.options.map((text, i) => ({ text, isCorrect: i === q.correct })).sort(() => 0.5 - Math.random());
                     return { ...q, options: opts.map(o => o.text), correct: opts.findIndex(o => o.isCorrect), displayNumber: idx + 1 };
                 });
@@ -1148,7 +1165,7 @@
                 const isShuffleOptions = document.getElementById('shuffle-options').checked;
                 const catFilter = document.getElementById('category-select').value;
 
-                let sliced = TEST_DATA.questions.slice(start, end);
+                let sliced = TEST_DATA_2025.questions.slice(start, end);
                 if (catFilter !== 'all') sliced = sliced.filter(q => q.category === catFilter);
                 if (sliced.length === 0) { alert("У цьому модулі немає питань обраної категорії."); return; }
                 if (isShuffleQuestions) sliced = sliced.sort(() => 0.5 - Math.random());
@@ -1182,7 +1199,7 @@
             const list = document.getElementById('quiz-list');
             const nav = document.getElementById('nav-dots');
             list.innerHTML = ''; nav.innerHTML = '';
-            const catMap = TEST_DATA.categories || {};
+            const catMap = TEST_DATA_2025.categories || {};
 
             state.questions.forEach((q, qIdx) => {
                 const item = document.createElement('div');
@@ -1192,7 +1209,7 @@
 
                 item.innerHTML = `
                     <div class="flex justify-between items-center mb-6 border-b pb-4" style="border-color: var(--border-color);">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] italic" style="color: var(--accent-color-hover);">Питання №${q.displayNumber}</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] italic ${q.displayNumber === 67 ? 'cursor-pointer select-none' : ''}" ${q.displayNumber === 67 ? 'onclick="handleEasterEgg()"' : ''} style="color: var(--accent-color-hover);">Питання №${q.displayNumber}</span>
                         <div class="flex items-center space-x-3">
                             <span class="px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border" style="background: var(--bg-main); border-color: var(--border-color); color: var(--text-dim);">${catMap[q.category] || "General"}</span>
                             <button onclick="toggleBookmark(${qIdx})" id="bookmark-btn-${qIdx}" class="text-xl md:text-2xl transition-transform hover:scale-110 focus:outline-none" style="color: ${localBookmarks.includes(q.text) ? 'var(--accent-color)' : 'var(--border-color)'};">
@@ -1250,7 +1267,7 @@
                 localBookmarks.push(qText);
                 if (btn) { btn.innerText = '★'; btn.style.color = 'var(--accent-color)'; }
             }
-            localStorage.setItem('invictus_bookmarks', JSON.stringify(localBookmarks));
+            localStorage.setItem('invictus_bookmarks_2025', JSON.stringify(localBookmarks));
             updateLocalUI();
         }
 
@@ -1283,8 +1300,8 @@
             } else {
                 if (!localMistakes.includes(q.text)) localMistakes.push(q.text);
             }
-            localStorage.setItem('invictus_mistakes', JSON.stringify(localMistakes));
-            localStorage.setItem('invictus_stats', JSON.stringify(localStats));
+            localStorage.setItem('invictus_mistakes_2025', JSON.stringify(localMistakes));
+            localStorage.setItem('invictus_stats_2025', JSON.stringify(localStats));
             updateLocalUI();
 
             document.getElementById('answered-count').innerText = `${Object.keys(state.answers).length} / ${state.questions.length}`;
@@ -1349,7 +1366,7 @@
 
             const catContainer = document.getElementById('res-categories');
             catContainer.innerHTML = '';
-            const catMap = TEST_DATA.categories || {};
+            const catMap = TEST_DATA_2025.categories || {};
 
             Object.keys(catStats).forEach(key => {
                 const s = catStats[key]; const p = (s.correct / s.total) * 100;
@@ -1412,7 +1429,6 @@
                 } else {
                     resBox.dataset.typing = "false";
                     cursor.classList.add('hidden');
-                    // Transition to text-dim
                     typeContainer.style.color = "var(--text-dim)";
                     typeContainer.style.fontWeight = "normal";
                     if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, resBox]);
@@ -1446,7 +1462,11 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => { updateFavoriteStar('krok3-ophthalmology.html'); });
+        function switchDatabase(year) {
+            if (year === '2026') { window.location.href = 'krok3-pediatrics.html'; }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { updateFavoriteStar('krok3-pediatrics-2025'); });
 
         function openConfirmModal() {
             const modal = document.getElementById('confirm-modal');
