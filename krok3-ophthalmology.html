@@ -13,575 +13,13 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-    <script src="k3oph26.js"></script>
-
-    <style>
-        :root {
-            /* Light Theme (Default) */
-            --bg-main: #F8F5FC;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --card-border: rgba(0, 0, 0, 0.05);
-            --accent-color: #B8E0D2;
-            --accent-color-hover: #98D0BC;
-            --text-main: #2D3748;
-            --text-dim: #718096;
-            --border-color: #E2E8F0;
-            --correct-green: #10b981;
-            --wrong-red: #ef4444;
-            --correct-bg: #d1fae5;
-            --wrong-bg: #fee2e2;
-
-            /* Logo */
-            --logo-fill: #1A202C;
-            --logo-stroke: #1A202C;
-            --logo-glow: rgba(184, 224, 210, 0.8);
-            --logo-header-inner: #F8F5FC;
-            --logo-center-inner: #FFFFFF;
-
-            /* Ambient Glows */
-            --btn-glow: rgba(184, 224, 210, 0.8);
-            --glow-red: rgba(184, 224, 210, 0.6);
-            --glow-crimson: rgba(220, 208, 255, 0.6);
-            --glow-purple: rgba(255, 228, 225, 0.6);
-
-            /* Header */
-            --header-bg: rgba(248, 245, 252, 0.85);
-            --dropdown-bg: #FFFFFF;
-            --nav-bg: rgba(255, 255, 255, 0.85);
-        }
-
-        [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-main: #1A1820;
-            --card-bg: rgba(30, 28, 36, 0.7);
-            --card-border: rgba(255, 255, 255, 0.05);
-            --accent-color: #8C7B9B;
-            --accent-color-hover: #A393B3;
-            --text-main: #E2E8F0;
-            --text-dim: #A0AEC0;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --correct-green: #34d399;
-            --wrong-red: #f87171;
-            --correct-bg: #064e3b;
-            --wrong-bg: #7f1d1d;
-
-            /* Logo */
-            --logo-fill: #E2E8F0;
-            --logo-stroke: #E2E8F0;
-            --logo-glow: rgba(140, 123, 155, 0.8);
-            --logo-header-inner: #1A1820;
-            --logo-center-inner: #1D1B23;
-
-            /* Ambient Glows */
-            --btn-glow: rgba(140, 123, 155, 0.8);
-            --glow-red: rgba(44, 74, 64, 0.5);
-            --glow-crimson: rgba(60, 50, 80, 0.5);
-            --glow-purple: rgba(80, 50, 60, 0.5);
-
-            /* Header */
-            --header-bg: rgba(26, 24, 32, 0.85);
-            --dropdown-bg: #221F2A;
-            --nav-bg: rgba(30, 28, 36, 0.85);
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow-x: hidden;
-            max-width: 100vw;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-
-        html {
-            overflow-x: hidden;
-            max-width: 100vw;
-        }
-
-        .font-fredoka {
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
-        }
-
-        [data-theme="dark"] body::before {
-            background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 0.85) 100%);
-        }
-
-        /* ЖИВИЙ АМБІЄНТ */
-        .ambient-glow {
-            position: absolute;
-            filter: blur(100px);
-            mix-blend-mode: normal;
-            z-index: 0;
-            pointer-events: none;
-            transition: background-color 0.5s ease;
-        }
-
-        [data-theme="dark"] .ambient-glow {
-            mix-blend-mode: screen;
-        }
-
-        @keyframes blob-red {
-
-            0%,
-            100% {
-                transform: translate(-50%, 0) scale(1);
-                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            }
-
-            50% {
-                transform: translate(-45%, 5%) scale(1.1);
-                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-                opacity: 0.9;
-            }
-        }
-
-        @keyframes blob-crimson {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-                border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-            }
-
-            50% {
-                transform: translate(-5%, -5%) scale(1.15);
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes blob-purple {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-                border-radius: 60% 40% 50% 50% / 50% 50% 50% 50%;
-            }
-
-            50% {
-                transform: translate(5%, -5%) scale(1.05);
-                border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%;
-                opacity: 0.9;
-            }
-        }
-
-        .glow-red {
-            background: var(--glow-red);
-            animation: blob-red 10s ease-in-out infinite;
-        }
-
-        .glow-crimson {
-            background: var(--glow-crimson);
-            animation: blob-crimson 12s ease-in-out infinite;
-        }
-
-        .glow-purple {
-            background: var(--glow-purple);
-            animation: blob-purple 8s ease-in-out infinite;
-        }
-
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 1.5rem;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.05);
-            transition: all 0.5s ease;
-        }
-
-        [data-theme="dark"] .glass-card {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-        }
-
-        .btn-accent {
-            background-color: var(--accent-color);
-            color: var(--text-main);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-        }
-
-        .btn-accent:hover:not(:disabled) {
-            background-color: var(--accent-color-hover);
-            transform: scale(1.02);
-            box-shadow: 0 0 25px var(--btn-glow);
-        }
-
-        .btn-accent:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        .btn-accent:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .quiz-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 1.25rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .quiz-item:hover {
-            border-color: var(--accent-color);
-        }
-
-        @media (min-width: 768px) {
-            .quiz-item {
-                padding: 2.5rem;
-                margin-bottom: 2rem;
-            }
-        }
-
-        .question-content {
-            text-transform: none !important;
-            line-height: 1.6;
-        }
-
-        .question-content b,
-        .question-content mark {
-            font-weight: 800;
-            background: transparent;
-            color: inherit;
-            transition: color 0.5s ease, text-shadow 0.5s ease;
-        }
-
-        .question-content.show-keywords b,
-        .question-content.show-keywords mark {
-            color: var(--accent-color-hover);
-            text-shadow: 0 0 10px var(--btn-glow);
-        }
-
-        .option-btn {
-            width: 100%;
-            text-align: left;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            margin-top: 0.75rem;
-            transition: all 0.2s ease;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            color: var(--text-main);
-        }
-
-        .option-btn:hover:not(.disabled) {
-            background: var(--border-color);
-        }
-
-        .option-btn.correct {
-            background: var(--correct-bg) !important;
-            border-color: var(--correct-green) !important;
-            color: var(--text-main);
-            font-weight: 700;
-        }
-
-        .option-btn.wrong {
-            background: var(--wrong-bg) !important;
-            border-color: var(--wrong-red) !important;
-            color: var(--text-main);
-        }
-
-        @keyframes breathe-correct {
-            0% {
-                box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
-            }
-
-            100% {
-                box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
-            }
-        }
-
-        .breathe-correct {
-            animation: breathe-correct 2s ease-in-out infinite;
-            border-color: var(--correct-green) !important;
-            font-weight: 700;
-        }
-
-        @keyframes pulse-wrong {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-                transform: scale(1);
-                border-color: var(--wrong-red);
-                color: var(--wrong-red);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
-                transform: scale(1.05);
-                border-color: var(--wrong-red);
-                text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-            }
-        }
-
-        @keyframes pulse-correct {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-                transform: scale(1);
-                border-color: var(--correct-green);
-                color: var(--correct-green);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
-                transform: scale(1.02);
-                border-color: var(--correct-green);
-                text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            }
-        }
-
-        .pulse-wrong {
-            animation: pulse-wrong 0.5s infinite ease-in-out;
-        }
-
-        .pulse-correct {
-            animation: pulse-correct 1s infinite ease-in-out;
-        }
-
-        .option-btn.disabled {
-            cursor: default;
-        }
-
-        .custom-checkbox {
-            accent-color: var(--accent-color);
-            width: 1.2rem;
-            height: 1.2rem;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .nav-panel {
-            background: var(--nav-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            overflow-y: auto;
-            position: relative;
-            z-index: 50;
-            transition: background-color 0.5s ease;
-        }
-
-        @media (max-width: 1023px) {
-            .nav-panel {
-                position: fixed;
-                top: 4rem;
-                right: 0;
-                bottom: 0;
-                width: 80vw;
-                max-width: 320px;
-                z-index: 200;
-                border-radius: 1.5rem 0 0 0;
-                border-left: 1px solid var(--border-color);
-                border-top: 1px solid var(--border-color);
-                border-bottom: none;
-                border-right: none;
-                transform: translateX(100%);
-                transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-                background: var(--header-bg);
-                padding: 1.5rem;
-            }
-
-            .nav-panel.active {
-                transform: translateX(0);
-                box-shadow: -30px 0 60px rgba(0, 0, 0, 0.15);
-            }
-
-            [data-theme="dark"] .nav-panel.active {
-                box-shadow: -30px 0 60px rgba(0, 0, 0, 0.8);
-            }
-
-            .nav-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(8px);
-                z-index: 190;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.5s ease;
-            }
-
-            .nav-overlay.active {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .nav-panel {
-                width: 320px;
-                height: calc(100vh - 240px);
-                position: sticky;
-                top: 120px;
-                max-height: none;
-            }
-        }
-
-        .nav-dot {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 800;
-            background: transparent;
-            color: var(--text-dim);
-            cursor: pointer;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .nav-dot.answered {
-            background: var(--accent-color);
-            color: var(--text-main);
-            border-color: var(--accent-color);
-        }
-
-        .nav-dot:hover {
-            border-color: var(--accent-color);
-            color: var(--text-main);
-        }
-
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-
-        /* ЛОГОТИП ТА ЕФЕКТИ */
-        .logo-container {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .logo-container:hover {
-            text-shadow: 0 0 20px var(--logo-glow);
-        }
-
-        .logo-invictus {
-            color: var(--logo-fill);
-            transition: color 0.5s ease;
-        }
-
-        .logo-medline-header {
-            color: var(--logo-header-inner);
-            text-shadow: -1px -1px 0 var(--logo-stroke), 1px -1px 0 var(--logo-stroke), -1px 1px 0 var(--logo-stroke), 1px 1px 0 var(--logo-stroke);
-            transition: color 0.5s ease;
-        }
-
-        /* ВІДПОВІДАЛЬНИЙ ЗА ПРОЕКТ ТА DROPDOWN */
-        .author-dropdown-up {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-            transform: translateY(10px) translateX(-50%) scale(0.95);
-            pointer-events: none;
-            background: var(--dropdown-bg);
-            border-color: var(--border-color);
-        }
-
-        .author-dropdown-up::after {
-            content: "";
-            position: absolute;
-            bottom: -20px;
-            left: 0;
-            width: 100%;
-            height: 25px;
-            background: transparent;
-        }
-
-        .group:hover .author-dropdown-up,
-        .group:active .author-dropdown-up {
-            opacity: 1;
-            transform: translateY(0) translateX(-50%) scale(1);
-            pointer-events: auto;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.6rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 60;
-        }
-
-        .social-btn.insta {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            color: white;
-        }
-
-        .social-btn.tg {
-            background: #0088cc;
-            color: white;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        /* СТИЛІ ДЛЯ SELECT / OPTION (щоб не було білого тексту на білому фоні) */
-        select option {
-            background-color: var(--dropdown-bg);
-            color: var(--text-main);
-            font-weight: bold;
-        }
-
-        /* #mobile-nav-toggle styles moved to HTML */
-    </style>
+    <script>
+        const MODULE_DATABASES = [
+            { id: '2026', title: '📚 Офіційний буклет ЦТ 2026', file: 'k3oph26.js', varName: 'TEST_DATA' }
+        ];
+    </script>
+
+    <link rel="stylesheet" href="global.css">
 </head>
 
 <body class="min-h-screen flex flex-col relative overflow-x-clip">
@@ -650,9 +88,9 @@
     <!-- MAIN APP AREA -->
     <div id="app" class="flex-1 flex flex-col relative opacity-100 transition-opacity duration-500 pt-16">
 
-        <div class="ambient-glow glow-red w-full max-w-4xl h-96 top-0 left-1/2 -translate-x-1/2"></div>
-        <div class="ambient-glow glow-crimson w-96 h-96 top-40 right-10"></div>
-        <div class="ambient-glow glow-purple w-96 h-96 bottom-10 left-10"></div>
+        
+        
+        
 
         <!-- HEADER FOR START SCREEN -->
         <header id="header-start"
@@ -676,22 +114,22 @@
                 </div>
                 <span
                     class="text-[8px] font-black uppercase tracking-[0.2em] text-center w-full block mt-0.5 transition-transform group-hover:scale-105"
-                    style="color: var(--text-dim);">Офтальмологія ЦТ 2026</span>
+                    style="color: var(--text-dim);">Актуальні бази</span>
             </a>
             <div class="flex items-center space-x-1">
-                <button onclick="toggleFavoritePage('krok3-ophthalmology', 'Офтальмологія')"
+                <button onclick="toggleFavoritePage('krok3-ophthalmology', 'Офтальмологія (Актуальні бази)')"
                     class="text-2xl font-bold p-2 rounded-full hover:scale-110 transition-transform"
                     id="btn-favorite-page" style="color: var(--text-dim);" title="Додати в улюблене">☆</button>
                 <button onclick="toggleTheme()"
                     class="text-sm font-bold p-2 rounded-full hover:bg-[var(--card-border)] transition-colors"
-                    style="color: var(--text-dim);">
-                    <svg id="theme-icon-light-1" class="w-5 h-5 hidden" fill="none" stroke="currentColor"
+                    style="color: var(--text-dim);" aria-label="Toggle theme">
+                    <svg id="theme-icon-light-mobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                         </path>
                     </svg>
-                    <svg id="theme-icon-dark-1" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="theme-icon-dark-mobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
                         </path>
@@ -721,14 +159,14 @@
             <div class="flex items-center space-x-4 md:space-x-6">
                 <button onclick="toggleTheme()"
                     class="text-sm font-bold p-2 rounded-full hover:bg-[var(--card-border)] transition-colors"
-                    style="color: var(--text-dim);">
-                    <svg id="theme-icon-light-2" class="w-5 h-5 hidden" fill="none" stroke="currentColor"
+                    style="color: var(--text-dim);" aria-label="Toggle theme">
+                    <svg id="theme-icon-light" class="w-5 h-5 hidden" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                         </path>
                     </svg>
-                    <svg id="theme-icon-dark-2" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="theme-icon-dark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
                         </path>
@@ -755,10 +193,8 @@
                             Оберіть актуальний буклет</p>
                     </div>
                     <select id="year-select"
-                        class="w-full md:w-64 bg-transparent border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer transition-all hover:bg-[var(--card-border)]"
+                        class="w-full md:w-64 bg-[var(--bg-main)] border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer shadow-sm transition-all hover:bg-[var(--card-border)]"
                         style="border-color: var(--accent-color); color: var(--text-main);">
-                        <option value="2026">Буклет 2026 року</option>
-                        <option value="future" disabled>Більше баз у розробці...</option>
                     </select>
                 </div>
 
@@ -777,7 +213,7 @@
                                 <label class="text-[9px] font-black uppercase tracking-widest mb-2 block"
                                     style="color: var(--text-dim);">Виберіть модуль:</label>
                                 <select id="learn-chunk"
-                                    class="w-full bg-transparent border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer"
+                                    class="w-full bg-[var(--bg-main)] border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer shadow-sm"
                                     style="border-color: var(--border-color); color: var(--text-main);"></select>
                             </div>
 
@@ -785,7 +221,7 @@
                                 <label class="text-[9px] font-black uppercase tracking-widest mb-2 block"
                                     style="color: var(--text-dim);">Виберіть категорію:</label>
                                 <select id="category-select"
-                                    class="w-full bg-transparent border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer"
+                                    class="w-full bg-[var(--bg-main)] border text-sm rounded-xl p-3 focus:outline-none font-bold cursor-pointer shadow-sm"
                                     style="border-color: var(--border-color); color: var(--text-main);">
                                     <option value="all">Усі категорії</option>
                                 </select>
@@ -813,17 +249,17 @@
 
                         <div class="grid grid-cols-2 gap-3 mt-2">
                             <button onclick="requestQuizStart('mistakes')" id="btn-mistakes"
-                                class="py-3 bg-transparent border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
+                                class="py-3 bg-[var(--bg-main)] border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
                                 style="border-color: var(--border-color); color: var(--text-dim);">
                                 ПОМИЛКИ (<span id="mistakes-count">0</span>)
                             </button>
                             <button onclick="requestQuizStart('bookmarks')" id="btn-bookmarks"
-                                class="py-3 bg-transparent border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
+                                class="py-3 bg-[var(--bg-main)] border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
                                 style="border-color: var(--border-color); color: var(--text-dim);">
                                 ЗБЕРЕЖЕНІ (<span id="bookmarks-count">0</span>)
                             </button>
                             <button onclick="toggleStatsModal()"
-                                class="col-span-2 py-3 bg-transparent border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner"
+                                class="col-span-2 py-3 bg-[var(--bg-main)] border rounded-xl font-black text-[10px] hover:bg-[var(--card-border)] transition-all shadow-inner"
                                 style="border-color: var(--border-color); color: var(--text-dim);">
                                 СТАТИСТИКА
                             </button>
@@ -840,13 +276,13 @@
                         </div>
                         <div class="grid grid-cols-2 gap-3 mt-auto">
                             <button onclick="requestQuizStart('sim', 10)"
-                                class="py-4 bg-transparent border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
+                                class="py-4 bg-[var(--bg-main)] border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
                                 style="border-color: var(--border-color); color: var(--text-main);">10 Q</button>
                             <button onclick="requestQuizStart('sim', 25)"
-                                class="py-4 bg-transparent border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
+                                class="py-4 bg-[var(--bg-main)] border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
                                 style="border-color: var(--border-color); color: var(--text-main);">25 Q</button>
                             <button onclick="requestQuizStart('sim', 50)"
-                                class="py-4 bg-transparent border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
+                                class="py-4 bg-[var(--bg-main)] border rounded-xl font-black text-[12px] hover:bg-[var(--card-border)] transition-colors shadow-sm"
                                 style="border-color: var(--border-color); color: var(--text-main);">50 Q</button>
                             <button onclick="requestQuizStart('sim', 150)"
                                 class="btn-accent py-4 rounded-xl font-black text-[12px] transition-all shadow-lg">150
@@ -968,519 +404,7 @@
         </footer>
     </div>
 
-    <script>
-        let state = { mode: 'full', questions: [], answers: {}, score: 0, startTime: null, timerInterval: null };
-        let localMistakes = JSON.parse(localStorage.getItem('invictus_mistakes') || '[]');
-        let localBookmarks = JSON.parse(localStorage.getItem('invictus_bookmarks') || '[]');
-        let localStats = JSON.parse(localStorage.getItem('invictus_stats') || '{"total":0, "correct":0}');
-        let pendingQuizConfig = null;
-
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcons(savedTheme);
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcons(newTheme);
-        }
-
-        function updateThemeIcons(theme) {
-            [1, 2].forEach(id => {
-                const lightIcon = document.getElementById(`theme-icon-light-${id}`);
-                const darkIcon = document.getElementById(`theme-icon-dark-${id}`);
-                if (lightIcon && darkIcon) {
-                    if (theme === 'dark') {
-                        lightIcon.classList.remove('hidden'); darkIcon.classList.add('hidden');
-                    } else {
-                        lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
-                    }
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            const select = document.getElementById('learn-chunk');
-            if (!select) return;
-
-            if (typeof TEST_DATA === 'undefined') {
-                select.innerHTML = `<option value="">Помилка: Базу k3oph26.js не знайдено!</option>`;
-                select.style.color = "red";
-                return;
-            }
-
-            const total = TEST_DATA.questions.length;
-            select.innerHTML = `<option value="0-${total}">Всі ${total} питань (Повний цикл)</option>`;
-
-            for (let i = 0; i < total; i += 10) {
-                const start = i;
-                const end = Math.min(i + 10, total);
-                select.innerHTML += `<option value="${start}-${end}">Спринт-модуль: Питання ${start + 1} - ${end}</option>`;
-            }
-
-            const catSelect = document.getElementById('category-select');
-            if (catSelect && TEST_DATA.categories) {
-                Object.entries(TEST_DATA.categories).forEach(([key, val]) => {
-                    catSelect.innerHTML += `<option value="${key}">${val}</option>`;
-                });
-            }
-            updateLocalUI();
-        });
-
-        function updateLocalUI() {
-            const countEl = document.getElementById('mistakes-count');
-            const btnEl = document.getElementById('btn-mistakes');
-            if (countEl) countEl.innerText = localMistakes.length;
-            if (btnEl) btnEl.disabled = localMistakes.length === 0;
-
-            const bCountEl = document.getElementById('bookmarks-count');
-            const bBtnEl = document.getElementById('btn-bookmarks');
-            if (bCountEl) bCountEl.innerText = localBookmarks.length;
-            if (bBtnEl) bBtnEl.disabled = localBookmarks.length === 0;
-
-            const stTotal = document.getElementById('stat-total');
-            const stCorr = document.getElementById('stat-correct');
-            const stAcc = document.getElementById('stat-accuracy');
-            if (stTotal) stTotal.innerText = localStats.total;
-            if (stCorr) stCorr.innerText = localStats.correct;
-            if (stAcc) {
-                const acc = localStats.total > 0 ? Math.round((localStats.correct / localStats.total) * 100) : 0;
-                stAcc.innerText = `${acc}%`;
-            }
-        }
-
-        function toggleStatsModal() { document.getElementById('stats-modal').classList.toggle('hidden'); }
-
-        function clearStats() {
-            if (confirm('Очистити всю статистику, збережені питання та базу помилок? (Дію неможливо скасувати)')) {
-                localMistakes = []; localBookmarks = []; localStats = { total: 0, correct: 0 };
-                localStorage.setItem('invictus_mistakes', JSON.stringify(localMistakes));
-                localStorage.setItem('invictus_bookmarks', JSON.stringify(localBookmarks));
-                localStorage.setItem('invictus_stats', JSON.stringify(localStats));
-                updateLocalUI(); toggleStatsModal();
-            }
-        }
-
-        function requestQuizStart(mode, count = 150) {
-            if (typeof TEST_DATA === 'undefined') {
-                alert("Критична помилка: Базу даних не підключено!"); return;
-            }
-            pendingQuizConfig = { mode, count };
-
-            const modal = document.getElementById('disclaimer-modal');
-            const content = document.getElementById('disclaimer-content');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            setTimeout(() => {
-                content.classList.remove('scale-95', 'opacity-0');
-                content.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-
-        function acceptDisclaimer() {
-            const modal = document.getElementById('disclaimer-modal');
-            const content = document.getElementById('disclaimer-content');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.remove('flex'); modal.classList.add('hidden');
-                if (pendingQuizConfig) {
-                    initQuiz(pendingQuizConfig.mode, pendingQuizConfig.count);
-                    pendingQuizConfig = null;
-                }
-            }, 300);
-        }
-
-        function cancelDisclaimer() {
-            const modal = document.getElementById('disclaimer-modal');
-            const content = document.getElementById('disclaimer-content');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.remove('flex'); modal.classList.add('hidden');
-                pendingQuizConfig = null;
-            }, 300);
-        }
-
-        function toggleMobileNav() {
-            document.getElementById('nav-sidebar').classList.toggle('active');
-            document.getElementById('nav-overlay').classList.toggle('active');
-        }
-
-        function initQuiz(mode, count) {
-            state.mode = mode; state.answers = {}; state.score = 0;
-
-            if (mode === 'mistakes') {
-                let pool = TEST_DATA.questions.filter(q => localMistakes.includes(q.text));
-                if (pool.length === 0) { alert("У вас немає невідпрацьованих помилок!"); return; }
-                pool = pool.sort(() => 0.5 - Math.random());
-                state.questions = pool.map((q, idx) => {
-                    let opts = q.options.map((text, i) => ({ text, isCorrect: i === q.correct })).sort(() => 0.5 - Math.random());
-                    return { ...q, options: opts.map(o => o.text), correct: opts.findIndex(o => o.isCorrect), displayNumber: idx + 1 };
-                });
-                document.getElementById('mode-label').innerText = `Mistakes Review: ${pool.length} Q`;
-            }
-            else if (mode === 'bookmarks') {
-                let pool = TEST_DATA.questions.filter(q => localBookmarks.includes(q.text));
-                if (pool.length === 0) { alert("У вас немає збережених питань!"); return; }
-                pool = pool.sort(() => 0.5 - Math.random());
-                state.questions = pool.map((q, idx) => {
-                    let opts = q.options.map((text, i) => ({ text, isCorrect: i === q.correct })).sort(() => 0.5 - Math.random());
-                    return { ...q, options: opts.map(o => o.text), correct: opts.findIndex(o => o.isCorrect), displayNumber: idx + 1 };
-                });
-                document.getElementById('mode-label').innerText = `Bookmarks Review: ${pool.length} Q`;
-            }
-            else if (mode === 'sim') {
-                state.questions = [...TEST_DATA.questions].sort(() => 0.5 - Math.random()).slice(0, count).map((q, idx) => {
-                    let opts = q.options.map((text, i) => ({ text, isCorrect: i === q.correct })).sort(() => 0.5 - Math.random());
-                    return { ...q, options: opts.map(o => o.text), correct: opts.findIndex(o => o.isCorrect), displayNumber: idx + 1 };
-                });
-                document.getElementById('mode-label').innerText = `Simulation Mode: ${count} Q`;
-            } else {
-                const chunkValue = document.getElementById('learn-chunk').value;
-                if (!chunkValue) return;
-                const [start, end] = chunkValue.split('-').map(Number);
-                const isShuffleQuestions = document.getElementById('shuffle-questions').checked;
-                const isShuffleOptions = document.getElementById('shuffle-options').checked;
-                const catFilter = document.getElementById('category-select').value;
-
-                let sliced = TEST_DATA.questions.slice(start, end);
-                if (catFilter !== 'all') sliced = sliced.filter(q => q.category === catFilter);
-                if (sliced.length === 0) { alert("У цьому модулі немає питань обраної категорії."); return; }
-                if (isShuffleQuestions) sliced = sliced.sort(() => 0.5 - Math.random());
-
-                state.questions = sliced.map((q, idx) => {
-                    let opts = q.options.map((text, i) => ({ text, isCorrect: i === q.correct }));
-                    if (isShuffleOptions) { opts = opts.sort(() => 0.5 - Math.random()); }
-                    else { opts = [opts.find(o => o.isCorrect), ...opts.filter(o => !o.isCorrect)]; }
-                    return { ...q, options: opts.map(o => o.text), correct: opts.findIndex(o => o.isCorrect), displayNumber: idx + 1 };
-                });
-                document.getElementById('mode-label').innerText = `Learning Mode: Q ${start + 1}-${end}`;
-            }
-
-            renderQuizList();
-
-            document.getElementById('header-start').classList.add('hidden');
-            document.getElementById('header-quiz').classList.remove('hidden');
-
-            showScreen('quiz-screen');
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            startTimer();
-            if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-        }
-
-        function normalizeQuestionText(text) {
-            if (text === text.toUpperCase() && text.length > 10) return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-            return text;
-        }
-
-        function renderQuizList() {
-            const list = document.getElementById('quiz-list');
-            const nav = document.getElementById('nav-dots');
-            list.innerHTML = ''; nav.innerHTML = '';
-            const catMap = TEST_DATA.categories || {};
-
-            state.questions.forEach((q, qIdx) => {
-                const item = document.createElement('div');
-                item.id = `q-${qIdx}`;
-                item.className = 'quiz-item animate-in slide-in-from-bottom-8 duration-500';
-                const cleanText = normalizeQuestionText(q.text);
-
-                item.innerHTML = `
-                    <div class="flex justify-between items-center mb-6 border-b pb-4" style="border-color: var(--border-color);">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] italic" style="color: var(--accent-color-hover);">Питання №${q.displayNumber}</span>
-                        <div class="flex items-center space-x-3">
-                            <span class="px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border" style="background: var(--bg-main); border-color: var(--border-color); color: var(--text-dim);">${catMap[q.category] || "General"}</span>
-                            <button onclick="toggleBookmark(${qIdx})" id="bookmark-btn-${qIdx}" class="text-xl md:text-2xl transition-transform hover:scale-110 focus:outline-none" style="color: ${localBookmarks.includes(q.text) ? 'var(--accent-color)' : 'var(--border-color)'};">
-                                ${localBookmarks.includes(q.text) ? '★' : '☆'}
-                            </button>
-                        </div>
-                    </div>
-                    <p class="question-content text-base md:text-xl font-black text-left tracking-tight" style="color: var(--text-main);">${cleanText}</p>
-                    <div class="options-container space-y-3 mt-8" id="opts-${qIdx}">
-                        ${q.options.map((opt, oIdx) => `
-                            <button onclick="handleSelect(${qIdx}, ${oIdx})" class="option-btn group/opt" id="q-${qIdx}-o-${oIdx}">
-                                <span class="font-black mr-5 text-xl" style="color: var(--accent-color-hover);">${String.fromCharCode(65 + oIdx)}</span>
-                                <span class="font-bold tracking-tight text-transform-none">${opt}</span>
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <button onclick="getAIExplanation(${qIdx})" class="flex items-center space-x-2 px-4 py-2 border rounded-xl text-[10px] font-black uppercase tracking-widest transition-all" style="background: var(--bg-main); border-color: var(--border-color); color: var(--text-dim);">
-                            <span>✨ Пояснення</span>
-                        </button>
-                    </div>
-                    <div id="ai-res-${qIdx}" data-typing="false" class="hidden mt-4 p-5 border-l-4 rounded-r-2xl text-sm italic leading-relaxed shadow-inner" style="background: var(--bg-main); border-color: var(--accent-color); color: var(--text-main);"></div>
-                `;
-                list.appendChild(item);
-
-                const dot = document.createElement('div');
-                dot.className = 'nav-dot shadow-inner';
-                dot.id = `dot-${qIdx}`; dot.innerText = q.displayNumber;
-                dot.onclick = () => {
-                    const el = document.getElementById(`q-${qIdx}`);
-                    const offset = window.innerWidth < 1024 ? 90 : 110;
-                    const offsetPosition = (el.getBoundingClientRect().top - document.body.getBoundingClientRect().top) - offset;
-                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-                    if (window.innerWidth < 1024) toggleMobileNav();
-                };
-                nav.appendChild(dot);
-            });
-
-            const finishBtnContainer = document.createElement('div');
-            finishBtnContainer.id = 'final-finish-btn-container';
-            finishBtnContainer.className = 'mt-12 text-center pb-12 hidden opacity-0 transition-opacity duration-1000';
-            finishBtnContainer.innerHTML = `<button onclick="finishQuiz(true)" class="btn-accent px-12 py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95 text-sm">Завершити тестування</button>`;
-            list.appendChild(finishBtnContainer);
-
-            document.getElementById('answered-count').innerText = `0 / ${state.questions.length}`;
-        }
-
-        function toggleBookmark(qIdx) {
-            const qText = state.questions[qIdx].text;
-            const btn = document.getElementById(`bookmark-btn-${qIdx}`);
-            if (localBookmarks.includes(qText)) {
-                localBookmarks = localBookmarks.filter(m => m !== qText);
-                if (btn) { btn.innerText = '☆'; btn.style.color = 'var(--border-color)'; }
-            } else {
-                localBookmarks.push(qText);
-                if (btn) { btn.innerText = '★'; btn.style.color = 'var(--accent-color)'; }
-            }
-            localStorage.setItem('invictus_bookmarks', JSON.stringify(localBookmarks));
-            updateLocalUI();
-        }
-
-        function handleSelect(qIdx, oIdx) {
-            if (state.answers[qIdx] !== undefined) return;
-            state.answers[qIdx] = oIdx;
-            const q = state.questions[qIdx];
-            const container = document.getElementById(`opts-${qIdx}`);
-            const buttons = container.querySelectorAll('.option-btn');
-            const dot = document.getElementById(`dot-${qIdx}`);
-
-            buttons.forEach((btn, idx) => {
-                btn.classList.add('disabled');
-                if (idx === q.correct) {
-                    if (oIdx === q.correct) {
-                        btn.classList.add('correct');
-                        if (dot) dot.classList.add('answered');
-                    } else {
-                        btn.classList.add('breathe-correct');
-                        if (dot) { dot.style.borderColor = "var(--wrong-red)"; dot.style.color = "var(--wrong-red)"; }
-                    }
-                } else if (idx === oIdx) {
-                    btn.classList.add('wrong');
-                }
-            });
-
-            localStats.total++;
-            if (oIdx === q.correct) {
-                localStats.correct++; localMistakes = localMistakes.filter(m => m !== q.text);
-            } else {
-                if (!localMistakes.includes(q.text)) localMistakes.push(q.text);
-            }
-            localStorage.setItem('invictus_mistakes', JSON.stringify(localMistakes));
-            localStorage.setItem('invictus_stats', JSON.stringify(localStats));
-            updateLocalUI();
-
-            document.getElementById('answered-count').innerText = `${Object.keys(state.answers).length} / ${state.questions.length}`;
-
-            if (Object.keys(state.answers).length === state.questions.length) {
-                const finalBtnContainer = document.getElementById('final-finish-btn-container');
-                if (finalBtnContainer) {
-                    finalBtnContainer.classList.remove('hidden');
-                    setTimeout(() => finalBtnContainer.classList.remove('opacity-0'), 50);
-                }
-            }
-        }
-
-        function startTimer() {
-            state.startTime = Date.now();
-            state.timerInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
-                const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
-                const s = (elapsed % 60).toString().padStart(2, '0');
-                const timerEl = document.getElementById('timer');
-                if (timerEl) timerEl.innerText = `${m}:${s}`;
-            }, 1000);
-        }
-
-        function showScreen(id) {
-            ['start-screen', 'quiz-screen', 'result-screen'].forEach(s => {
-                const screen = document.getElementById(s);
-                if (screen) screen.classList.add('hidden');
-            });
-            const target = document.getElementById(id);
-            if (target) target.classList.remove('hidden');
-        }
-
-        function finishQuiz(force = false) {
-            const totalQuestions = state.questions.length;
-            const answeredCount = Object.keys(state.answers).length;
-            if (!force && answeredCount < totalQuestions) {
-                openConfirmModal();
-                return;
-            }
-
-            clearInterval(state.timerInterval);
-            let correctCount = 0; const catStats = {};
-
-            state.questions.forEach((q, idx) => {
-                if (!catStats[q.category]) catStats[q.category] = { correct: 0, total: 0 };
-                catStats[q.category].total++;
-                if (state.answers[idx] === q.correct) { correctCount++; catStats[q.category].correct++; }
-            });
-
-            const percentValue = (correctCount / totalQuestions) * 100;
-            const circle = document.getElementById('res-circle');
-            const status = document.getElementById('res-status');
-            document.getElementById('res-percent').innerText = `${percentValue.toFixed(1)}%`;
-
-            circle.className = 'w-48 h-48 md:w-56 md:h-56 rounded-full border-[10px] flex flex-col items-center justify-center';
-            if (percentValue >= 66.0) {
-                circle.classList.add('pulse-correct'); status.innerText = 'СКЛАДЕНО'; status.style.color = "var(--correct-green)";
-            } else {
-                circle.classList.add('pulse-wrong'); status.innerText = 'НЕ СКЛАДЕНО'; status.style.color = "var(--wrong-red)";
-            }
-
-            const catContainer = document.getElementById('res-categories');
-            catContainer.innerHTML = '';
-            const catMap = TEST_DATA.categories || {};
-
-            Object.keys(catStats).forEach(key => {
-                const s = catStats[key]; const p = (s.correct / s.total) * 100;
-                catContainer.innerHTML += `
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-[10px] font-black uppercase tracking-[0.2em]">
-                            <span style="color: var(--text-dim);">${catMap[key] || key}</span>
-                            <span class="${p < 66 ? '' : ''} font-black text-xs" style="color: ${p < 66 ? 'var(--wrong-red)' : 'var(--correct-green)'}">${p.toFixed(0)}%</span>
-                        </div>
-                        <div class="w-full h-2 rounded-full overflow-hidden border shadow-inner" style="background: var(--bg-main); border-color: var(--border-color);">
-                            <div class="h-full transition-all duration-1000 shadow-lg" style="width: ${p}%; background: ${p < 66 ? 'var(--wrong-red)' : 'var(--correct-green)'}"></div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('header-quiz').classList.add('hidden');
-            showScreen('result-screen');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function getAIExplanation(qIdx) {
-            const q = state.questions[qIdx];
-            const resBox = document.getElementById(`ai-res-${qIdx}`);
-            if (resBox.dataset.typing === "true") return;
-            resBox.dataset.typing = "true";
-
-            resBox.classList.remove('hidden');
-            resBox.innerHTML = '<span class="animate-pulse font-bold" style="color: var(--accent-color-hover);">Аналіз клінічної картини...</span>';
-
-            const questionEl = document.querySelector(`#q-${qIdx} .question-content`);
-            if (questionEl) questionEl.classList.add('show-keywords');
-
-            await new Promise(resolve => setTimeout(resolve, 800));
-
-            const explanationText = q.explanation || "Дані для цього клінічного випадку відсутні в локальній базі.";
-            const prefixHTML = `<strong class="uppercase tracking-widest text-[10px] mb-2 block" style="color: var(--accent-color-hover);">Коментар:</strong> `;
-
-            // While typing: use accent color
-            resBox.innerHTML = prefixHTML + '<span id="typewriter-' + qIdx + '" style="color: var(--accent-color-hover); font-weight: bold; transition: color 1s ease, font-weight 1s ease;"></span><span id="cursor-' + qIdx + '" class="animate-pulse font-bold" style="color: var(--accent-color-hover);">_</span>';
-            const typeContainer = document.getElementById(`typewriter-${qIdx}`);
-            const cursor = document.getElementById(`cursor-${qIdx}`);
-
-            let i = 0;
-            function typeWriter() {
-                if (i < explanationText.length) {
-                    // Instantly print HTML tags to avoid raw formatting text
-                    if (explanationText.charAt(i) === '<') {
-                        const tagEnd = explanationText.indexOf('>', i);
-                        if (tagEnd !== -1) {
-                            i = tagEnd + 1;
-                        } else {
-                            i++;
-                        }
-                    } else {
-                        i++;
-                    }
-                    typeContainer.innerHTML = explanationText.substring(0, i);
-                    setTimeout(typeWriter, 10);
-                } else {
-                    resBox.dataset.typing = "false";
-                    cursor.classList.add('hidden');
-                    // Transition to text-dim
-                    typeContainer.style.color = "var(--text-dim)";
-                    typeContainer.style.fontWeight = "normal";
-                    if (window.MathJax) MathJax.Hub.Queue(["Typeset", MathJax.Hub, resBox]);
-                }
-            }
-            typeWriter();
-        }
-
-        function toggleFavoritePage(url, title) {
-            let favs = JSON.parse(localStorage.getItem('invictus_favorite_pages') || '[]');
-            const exists = favs.find(f => f.url === url);
-            if (exists) {
-                favs = favs.filter(f => f.url !== url);
-            } else {
-                if (favs.length >= 10) { alert('Максимум 10 віджетів!'); return; }
-                favs.push({ url, title });
-            }
-            localStorage.setItem('invictus_favorite_pages', JSON.stringify(favs));
-            updateFavoriteStar(url);
-        }
-
-        function updateFavoriteStar(url) {
-            let favs = JSON.parse(localStorage.getItem('invictus_favorite_pages') || '[]');
-            const btn = document.getElementById('btn-favorite-page');
-            if (!btn) return;
-            if (favs.find(f => f.url === url)) {
-                btn.innerText = '★'; btn.style.color = 'var(--accent-color)';
-                btn.classList.add('pulse-correct'); setTimeout(() => btn.classList.remove('pulse-correct'), 1000);
-            } else {
-                btn.innerText = '☆'; btn.style.color = 'var(--text-dim)';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { updateFavoriteStar('krok3-ophthalmology.html'); });
-
-        function openConfirmModal() {
-            const modal = document.getElementById('confirm-modal');
-            const content = document.getElementById('confirm-modal-content');
-            if (modal && content) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                setTimeout(() => {
-                    content.classList.remove('scale-95', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        }
-
-        function closeConfirmModal() {
-            const modal = document.getElementById('confirm-modal');
-            const content = document.getElementById('confirm-modal-content');
-            if (modal && content) {
-                content.classList.remove('scale-100', 'opacity-100');
-                content.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => {
-                    modal.classList.remove('flex');
-                    modal.classList.add('hidden');
-                }, 300);
-            }
-        }
-
-        function confirmFinishQuiz() {
-            closeConfirmModal();
-            setTimeout(() => {
-                finishQuiz(true);
-            }, 300);
-        }
-    </script>
+    <script src="quiz.js"></script>
 
     <!-- ГЛАСМОРФНЕ МОДАЛЬНЕ ВІКНО ПІДТВЕРДЖЕННЯ -->
     <div id="confirm-modal"
