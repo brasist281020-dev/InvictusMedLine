@@ -154,8 +154,12 @@ function loadFavorites() {
     if (container) {
         container.innerHTML = '';
         favs.forEach(fav => {
+            let displayUrl = fav.url;
+            if (displayUrl.startsWith('krok3-') && !displayUrl.includes('?')) {
+                displayUrl = 'quiz?module=' + displayUrl;
+            }
             container.innerHTML += `
-                <a href="${fav.url}" class="glass-card p-4 rounded-[1.2rem] flex flex-col justify-center items-center group relative overflow-hidden h-[80px] border transition-all hover:-translate-y-1 hover:shadow-xl" style="border-color: var(--border-color);">
+                <a href="${displayUrl}" class="glass-card p-4 rounded-[1.2rem] flex flex-col justify-center items-center group relative overflow-hidden h-[80px] border transition-all hover:-translate-y-1 hover:shadow-xl" style="border-color: var(--border-color);">
                     <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <h3 class="font-fredoka text-sm text-center relative z-10 transition-colors drop-shadow-sm" style="color: var(--text-main);">${fav.title}</h3>
                     <button onclick="removeFavorite(event, '${fav.url}')" class="absolute top-2 right-2 text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity z-20" style="color: var(--text-dim);">&times;</button>

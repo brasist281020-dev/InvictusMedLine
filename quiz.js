@@ -23,31 +23,64 @@ function handleEasterEgg() {
 let activeDbConfig = null;
 let activeDbData = null;
 
+let MODULE_DATABASES = [];
+
 function loadDatabaseScript() {
-    if (typeof MODULE_DATABASES === 'undefined' || MODULE_DATABASES.length === 0) {
-        // Fallback for pages without MODULE_DATABASES
+    const urlParams = new URLSearchParams(window.location.search);
+    const moduleId = urlParams.get('module');
+    const dbId = urlParams.get('db');
+
+    if (!moduleId) {
+        // Fallback: if no ?module= param, try legacy MODULE_DATABASES from HTML
+        if (typeof LEGACY_MODULE_DATABASES !== 'undefined' && LEGACY_MODULE_DATABASES.length > 0) {
+            MODULE_DATABASES = LEGACY_MODULE_DATABASES;
+            activeDbConfig = MODULE_DATABASES.find(db => db.id === (dbId || MODULE_DATABASES[0].id)) || MODULE_DATABASES[0];
+            loadScript(activeDbConfig);
+            return;
+        }
         if (typeof TEST_DATA !== 'undefined') activeDbData = TEST_DATA;
         else if (typeof TEST_DATA_2025 !== 'undefined') activeDbData = TEST_DATA_2025;
         initQuizApp();
         return;
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const dbId = urlParams.get('db') || MODULE_DATABASES[0].id;
-    activeDbConfig = MODULE_DATABASES.find(db => db.id === dbId) || MODULE_DATABASES[0];
+    // Fetch registry and find the module
+    fetch('databases/registry.json?v=' + new Date().getTime())
+        .then(res => res.json())
+        .then(registry => {
+            const mod = registry.modules.find(m => m.id === moduleId);
+            if (!mod) {
+                alert('Модуль "' + moduleId + '" не знайдено в реєстрі!');
+                return;
+            }
+            // Set page title from registry
+            document.title = 'InvictusMedLine | ' + mod.name;
+            const titleEl = document.getElementById('module-title');
+            if (titleEl) titleEl.textContent = mod.name;
 
+            MODULE_DATABASES = mod.databases;
+            activeDbConfig = MODULE_DATABASES.find(db => db.id === dbId) || MODULE_DATABASES[0];
+            loadScript(activeDbConfig);
+        })
+        .catch(err => {
+            console.error('Registry fetch error:', err);
+            alert('Помилка завантаження реєстру баз даних.');
+        });
+}
+
+function loadScript(config) {
     const script = document.createElement('script');
-    script.src = activeDbConfig.file + '?v=' + new Date().getTime(); // Cache busting
+    script.src = config.file + '?v=' + new Date().getTime();
     script.onload = () => {
         try {
-            activeDbData = eval(activeDbConfig.varName);
+            activeDbData = eval(config.varName);
         } catch (e) {
             console.error("DB Eval Error:", e);
         }
         initQuizApp();
     };
     script.onerror = () => {
-        alert("Помилка завантаження бази тестів: " + activeDbConfig.file);
+        alert("Помилка завантаження бази тестів: " + config.file);
     };
     document.head.appendChild(script);
 }
@@ -55,6 +88,7 @@ function loadDatabaseScript() {
 document.addEventListener('DOMContentLoaded', () => {
     loadDatabaseScript();
 });
+
 
 function getActiveDB() {
     return activeDbData;
@@ -98,13 +132,15 @@ function initQuizApp() {
     initTheme();
 
     const yearSelect = document.getElementById('year-select');
-    if (yearSelect && typeof MODULE_DATABASES !== 'undefined') {
+    if (yearSelect && MODULE_DATABASES.length > 0) {
         yearSelect.innerHTML = MODULE_DATABASES.map(db => 
             `<option value="${db.id}" ${activeDbConfig && db.id === activeDbConfig.id ? 'selected' : ''}>${db.title}</option>`
         ).join('');
         
         yearSelect.onchange = (e) => {
-            window.location.search = '?db=' + e.target.value;
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('db', e.target.value);
+            window.location.search = urlParams.toString();
         };
     }
 

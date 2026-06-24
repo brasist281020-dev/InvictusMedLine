@@ -336,99 +336,65 @@
                     <div class="w-10 flex-shrink-0"></div> <!-- Розпірка -->
                 </div>
 
-                <!-- ДОДАНО p-4 щоб тіні і бордери карток не обрізались контейнером з overflow -->
-                <div
+                <div id="specialty-grid"
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left max-h-[60vh] overflow-y-auto p-4 no-scrollbar relative z-10">
+                    <!-- Буде завантажено динамічно з registry.json -->
+                    <div class="col-span-full text-center py-8 text-sm font-bold" style="color: var(--text-dim);">
+                        Завантаження модулів...
+                    </div>
+                </div>
 
-                    <!-- 1. ПЕДІАТРІЯ (АКТИВНА) -->
-                    <a href="krok3-pediatrics"
-                        class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <div class="relative z-10">
-                            <p
-                                class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно
-                            </p>
-                            <h3 class="text-base font-black leading-tight transition-colors"
-                                style="color: var(--text-main);">Педіатрія</h3>
-                        </div>
-                        <div class="text-right relative z-10 mt-2">
-                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner"
-                                style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">Актуальні бази</span>
-                        </div>
-                    </a>
+                <script>
+                    fetch('databases/registry.json?v=' + new Date().getTime())
+                        .then(res => res.json())
+                        .then(registry => {
+                            const grid = document.getElementById('specialty-grid');
+                            if (!grid) return;
+                            grid.innerHTML = '';
 
-                    <!-- 2. СІМЕЙНА МЕДИЦИНА (АКТИВНА) -->
-                    <a href="krok3-family-med"
-                        class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <div class="relative z-10">
-                            <p
-                                class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно
-                            </p>
-                            <h3 class="text-base font-black leading-tight transition-colors"
-                                style="color: var(--text-main);">Загальна практика - сімейна медицина</h3>
-                        </div>
-                        <div class="text-right relative z-10 mt-2">
-                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner"
-                                style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">Актуальні бази</span>
-                        </div>
-                    </a>
+                            // 1. Активні модулі
+                            registry.modules.forEach(mod => {
+                                const card = document.createElement('a');
+                                card.href = 'quiz?module=' + mod.id;
+                                card.className = 'module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden';
+                                card.innerHTML = `
+                                    <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div class="relative z-10">
+                                        <p class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно
+                                        </p>
+                                        <h3 class="text-base font-black leading-tight transition-colors" style="color: var(--text-main);">${mod.name}</h3>
+                                    </div>
+                                    <div class="text-right relative z-10 mt-2">
+                                        <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner"
+                                            style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">Актуальні бази</span>
+                                    </div>
+                                `;
+                                grid.appendChild(card);
+                            });
 
-                    <!-- 3. ОФТАЛЬМОЛОГІЯ (АКТИВНА) -->
-                    <a href="krok3-ophthalmology"
-                        class="module-card p-5 rounded-2xl flex flex-col justify-between h-[120px] group cursor-pointer relative overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        </div>
-                        <div class="relative z-10">
-                            <p
-                                class="text-[8px] font-black text-emerald-500 uppercase tracking-widest mb-1 flex items-center">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-[0_0_8px_#10b981]"></span>Доступно
-                            </p>
-                            <h3 class="text-base font-black leading-tight transition-colors"
-                                style="color: var(--text-main);">Офтальмологія</h3>
-                        </div>
-                        <div class="text-right relative z-10 mt-2">
-                            <span class="inline-block px-3 py-1 border rounded-md text-[8px] font-bold shadow-inner"
-                                style="background: var(--card-bg); border-color: var(--border-color); color: var(--text-dim);">Актуальні бази</span>
-                        </div>
-                    </a>
-
-                    <!-- ФУНКЦІЯ ГЕНЕРАЦІЇ КАРТОК "В РОЗРОБЦІ" -->
-                    <script>
-                        const specialties = [
-                            "Внутрішні хвороби", "Акушерство та гінекологія", "Хірургія",
-                            "Анестезіологія та інтенсивна терапія", "Медицина невідкладних станів",
-                            "Психіатрія", "Неврологія", "Інфекційні хвороби", "Ортопедія і травматологія",
-                            "Отоларингологія", "Дерматовенерологія", "Радіологія",
-                            "Дитяча хірургія", "Епідеміологія", "Медична психологія", "Патологічна анатомія",
-                            "Фізична та реабілітаційна медицина", "Стоматологія",
-                            "Лабораторна діагностика, вірусологія, мікробіологія"
-                        ];
-
-                        specialties.forEach(spec => {
-                            document.write(`
-                                <div class="module-card p-5 rounded-2xl opacity-60 flex flex-col justify-between h-[120px] relative overflow-hidden">
+                            // 2. Модулі в розробці
+                            registry.comingSoon.forEach(spec => {
+                                const card = document.createElement('div');
+                                card.className = 'module-card p-5 rounded-2xl opacity-60 flex flex-col justify-between h-[120px] relative overflow-hidden';
+                                card.innerHTML = `
                                     <div class="relative z-10 pr-6">
                                         <p class="text-[8px] font-black uppercase tracking-widest mb-1" style="color: var(--text-dim);">Очікується</p>
                                         <h3 class="text-sm font-bold leading-tight" style="color: var(--text-dim);">${spec}</h3>
                                     </div>
                                     <div class="ribbon-wrapper opacity-50 filter grayscale"><div class="ribbon">В розробці</div></div>
-                                </div>
-                            `);
+                                `;
+                                grid.appendChild(card);
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Error loading registry:', err);
+                            const grid = document.getElementById('specialty-grid');
+                            if (grid) {
+                                grid.innerHTML = '<div class="col-span-full text-center py-8 text-sm font-bold text-red-500">Помилка завантаження модулів</div>';
+                            }
                         });
-                    </script>
-
-                </div>
+                </script>
             </div>
 
         </div>

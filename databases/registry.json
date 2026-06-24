@@ -1,0 +1,45 @@
+{
+    "modules": [
+        {
+            "id": "krok3-pediatrics",
+            "name": "Педіатрія",
+            "exam": "Крок 3",
+            "icon": "👶",
+            "status": "active",
+            "databases": [
+                { "id": "2026exam", "title": "📌 Екзаменаційний буклет 2026", "file": "databases/krok3-pediatrics/k3p26exam.js", "varName": "TEST_DATA_PEDIATRICS" },
+                { "id": "2026", "title": "📚 Офіційний буклет ЦТ 2026", "file": "databases/krok3-pediatrics/k3p26.js", "varName": "TEST_DATA" },
+                { "id": "2025", "title": "📌 Екзаменаційний буклет 2025", "file": "databases/krok3-pediatrics/k3p25exam.js", "varName": "TEST_DATA_2025" }
+            ]
+        },
+        {
+            "id": "krok3-family-med",
+            "name": "Загальна практика - сімейна медицина",
+            "exam": "Крок 3",
+            "icon": "🏥",
+            "status": "active",
+            "databases": [
+                { "id": "2026", "title": "📚 Офіційний буклет ЦТ 2026", "file": "databases/krok3-family-med/k3fm26.js", "varName": "TEST_DATA" }
+            ]
+        },
+        {
+            "id": "krok3-ophthalmology",
+            "name": "Офтальмологія",
+            "exam": "Крок 3",
+            "icon": "👁️",
+            "status": "active",
+            "databases": [
+                { "id": "2026", "title": "📚 Офіційний буклет ЦТ 2026", "file": "databases/krok3-ophthalmology/k3oph26.js", "varName": "TEST_DATA" }
+            ]
+        }
+    ],
+    "comingSoon": [
+        "Внутрішні хвороби", "Акушерство та гінекологія", "Хірургія",
+        "Анестезіологія та інтенсивна терапія", "Медицина невідкладних станів",
+        "Психіатрія", "Неврологія", "Інфекційні хвороби", "Ортопедія і травматологія",
+        "Отоларингологія", "Дерматовенерологія", "Радіологія",
+        "Дитяча хірургія", "Епідеміологія", "Медична психологія", "Патологічна анатомія",
+        "Фізична та реабілітаційна медицина", "Стоматологія",
+        "Лабораторна діагностика, вірусологія, мікробіологія"
+    ]
+}
