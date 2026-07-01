@@ -9,7 +9,8 @@
             "databases": [
                 { "id": "2026exam", "title": "📌 Екзаменаційний буклет 2026", "file": "databases/krok3-pediatrics/k3p26exam.js", "varName": "TEST_DATA_PEDIATRICS" },
                 { "id": "2026", "title": "📚 Офіційний буклет ЦТ 2026", "file": "databases/krok3-pediatrics/k3p26.js", "varName": "TEST_DATA" },
-                { "id": "2025", "title": "📌 Екзаменаційний буклет 2025", "file": "databases/krok3-pediatrics/k3p25exam.js", "varName": "TEST_DATA_2025" }
+                { "id": "2025", "title": "📌 Екзаменаційний буклет 2025", "file": "databases/krok3-pediatrics/k3p25exam.js", "varName": "TEST_DATA_2025" },
+                { "id": "2024exam", "title": "📌 Екзаменаційний буклет 2024", "file": "databases/krok3-pediatrics/k3p24exam.js", "varName": "TEST_DATA_2024" }
             ]
         },
         {
